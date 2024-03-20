@@ -741,15 +741,19 @@ fpc_enroll_update_cb (FpiDeviceFpcMoc *self,
       /* here should tips remove finger and try again */
       if (self->max_immobile_stage)
         {
-          if (self->immobile_stage >= self->max_immobile_stage)
+          self->immobile_stage++;
+          if (self->immobile_stage > self->max_immobile_stage)
             {
               fp_dbg ("Skip similar handle due to customer enrollment %d(%d)",
                       self->immobile_stage, self->max_immobile_stage);
               /* Skip too similar handle, treat as normal enroll progress. */
-              fpi_ssm_jump_to_state (self->task_ssm, FPC_ENROL_STATUS_PROGRESS);
+              self->enroll_stage++;
+              fpi_device_enroll_progress (FP_DEVICE (self), self->enroll_stage, NULL, NULL);
+              /* Used for customer enrollment scheme */
+              if (self->enroll_stage >= (self->max_enroll_stage - self->max_immobile_stage))
+                fpi_ssm_jump_to_state (self->task_ssm, FP_ENROLL_COMPLETE);
               break;
             }
-          self->immobile_stage++;
         }
       fpi_device_enroll_progress (FP_DEVICE (self),
                                   self->enroll_stage,
