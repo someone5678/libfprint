@@ -445,10 +445,16 @@ fpc_evt_cb (FpiDeviceFpcMoc *self,
       break;
 
     case FPC_EVT_FINGER_DWN:
-      fp_dbg ("%s Got finger down event", G_STRFUNC);
+      fp_dbg ("%s Got finger down event (%d)", G_STRFUNC, presp->evt_hdr.status);
       fpi_device_report_finger_status_changes (FP_DEVICE (self),
                                                FP_FINGER_STATUS_PRESENT,
                                                FP_FINGER_STATUS_NONE);
+      if (presp->evt_hdr.status != 0)
+        {
+          /* Redo the current task state if capture failed */
+          fpi_ssm_jump_to_state (self->task_ssm, fpi_ssm_get_cur_state (self->task_ssm));
+          return;
+        }
       break;
 
     case FPC_EVT_IMG:
