@@ -21,7 +21,7 @@
 
 #define FP_COMPONENT "fpcmoc"
 #define MAX_ENROLL_SAMPLES (25)
-#define CTRL_TIMEOUT (1000)
+#define CTRL_TIMEOUT (2000)
 #define DATA_TIMEOUT (5000)
 
 /* Usb port setting */
