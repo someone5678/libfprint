@@ -387,7 +387,7 @@ fpc_dev_release_interface (FpiDeviceFpcMoc *self,
     }
 
   /* Notify close complete */
-  fpi_device_close_complete (FP_DEVICE (self), release_error);
+  fpi_device_close_complete (FP_DEVICE (self), g_steal_pointer (&release_error));
 }
 
 static gboolean
