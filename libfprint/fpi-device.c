@@ -1042,30 +1042,28 @@ fp_device_task_return_in_idle_cb (gpointer user_data)
 static void
 fpi_device_task_return_data_free (FpDeviceTaskReturnData *data)
 {
-  if (data->result)
+  switch (data->type)
     {
-      switch (data->type)
-        {
-        case FP_DEVICE_TASK_RETURN_INT:
-        case FP_DEVICE_TASK_RETURN_BOOL:
-          break;
+    case FP_DEVICE_TASK_RETURN_INT:
+    case FP_DEVICE_TASK_RETURN_BOOL:
+      break;
 
-        case FP_DEVICE_TASK_RETURN_OBJECT:
-          g_clear_object ((GObject **) &data->result);
-          break;
+    case FP_DEVICE_TASK_RETURN_OBJECT:
+      g_clear_object ((GObject **) &data->result);
+      break;
 
-        case FP_DEVICE_TASK_RETURN_PTR_ARRAY:
-          g_clear_pointer ((GPtrArray **) &data->result, g_ptr_array_unref);
-          break;
+    case FP_DEVICE_TASK_RETURN_PTR_ARRAY:
+      g_clear_pointer ((GPtrArray **) &data->result, g_ptr_array_unref);
+      break;
 
-        case FP_DEVICE_TASK_RETURN_ERROR:
-          g_clear_error ((GError **) &data->result);
-          break;
+    case FP_DEVICE_TASK_RETURN_ERROR:
+      g_clear_error ((GError **) &data->result);
+      break;
 
-        default:
-          g_assert_not_reached ();
-        }
+    default:
+      g_assert_not_reached ();
     }
+
   g_object_unref (data->device);
   g_free (data);
 }
