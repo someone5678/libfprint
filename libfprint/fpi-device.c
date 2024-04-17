@@ -1068,6 +1068,15 @@ fpi_device_task_return_data_free (FpDeviceTaskReturnData *data)
   g_free (data);
 }
 
+/**
+ * fpi_device_return_task_in_idle:
+ * @device: The #FpDevice
+ * @return_type: The #FpDeviceTaskReturnType of @return_data
+ * @return_data: (nullable) (transfer full): The data to return.
+ *
+ * Completes a #FpDevice task in an idle source, stealing the ownership of
+ * the passed @returned_data.
+ */
 static void
 fpi_device_return_task_in_idle (FpDevice              *device,
                                 FpDeviceTaskReturnType return_type,
@@ -1099,7 +1108,7 @@ fpi_device_return_task_in_idle (FpDevice              *device,
  * @device: The #FpDevice
  * @device_id: Unique ID for the device or %NULL
  * @device_name: Human readable name or %NULL for driver name
- * @error: The #GError or %NULL on success
+ * @error: (nullable) (transfer full): The #GError or %NULL on success
  *
  * Finish an ongoing probe operation. If error is %NULL success is assumed.
  */
@@ -1145,7 +1154,7 @@ fpi_device_probe_complete (FpDevice    *device,
 /**
  * fpi_device_open_complete:
  * @device: The #FpDevice
- * @error: The #GError or %NULL on success
+ * @error: (nullable) (transfer full): The #GError or %NULL on success
  *
  * Finish an ongoing open operation. If error is %NULL success is assumed.
  */
@@ -1172,7 +1181,7 @@ fpi_device_open_complete (FpDevice *device, GError *error)
 /**
  * fpi_device_close_complete:
  * @device: The #FpDevice
- * @error: The #GError or %NULL on success
+ * @error: (nullable) (transfer full): The #GError or %NULL on success
  *
  * Finish an ongoing close operation. If error is %NULL success is assumed.
  */
@@ -1224,7 +1233,7 @@ fpi_device_close_complete (FpDevice *device, GError *error)
  * fpi_device_enroll_complete:
  * @device: The #FpDevice
  * @print: (nullable) (transfer full): The #FpPrint or %NULL on failure
- * @error: The #GError or %NULL on success
+ * @error: (nullable) (transfer full): The #GError or %NULL on success
  *
  * Finish an ongoing enroll operation. The #FpPrint can be stored by the
  * caller for later verification.
@@ -1353,7 +1362,7 @@ fpi_device_verify_complete (FpDevice *device,
 /**
  * fpi_device_identify_complete:
  * @device: The #FpDevice
- * @error: The #GError or %NULL on success
+ * @error: (nullable) (transfer full): The #GError or %NULL on success
  *
  * Finish an ongoing identify operation.
  *
@@ -1419,7 +1428,7 @@ fpi_device_identify_complete (FpDevice *device,
  * fpi_device_capture_complete:
  * @device: The #FpDevice
  * @image: The #FpImage, or %NULL on error
- * @error: The #GError or %NULL on success
+ * @error: (nullable) (transfer full): The #GError or %NULL on success
  *
  * Finish an ongoing capture operation.
  */
@@ -1466,7 +1475,7 @@ fpi_device_capture_complete (FpDevice *device,
 /**
  * fpi_device_delete_complete:
  * @device: The #FpDevice
- * @error: The #GError or %NULL on success
+ * @error: (nullable) (transfer full): The #GError or %NULL on success
  *
  * Finish an ongoing delete operation.
  */
@@ -1495,7 +1504,7 @@ fpi_device_delete_complete (FpDevice *device,
  * fpi_device_list_complete:
  * @device: The #FpDevice
  * @prints: (element-type FpPrint) (transfer container): Possibly empty array of prints or %NULL on error
- * @error: The #GError or %NULL on success
+ * @error: (nullable) (transfer full): The #GError or %NULL on success
  *
  * Finish an ongoing list operation.
  *
@@ -1773,7 +1782,7 @@ fpi_device_suspend_completed (FpDevice *device)
 /**
  * fpi_device_suspend_complete:
  * @device: The #FpDevice
- * @error: The #GError or %NULL on success
+ * @error: (nullable) (transfer full): The #GError or %NULL on success
  *
  * Finish a suspend request. Only return a %NULL error if suspend has been
  * correctly configured and the current action as returned by
@@ -1824,7 +1833,7 @@ fpi_device_suspend_complete (FpDevice *device,
 /**
  * fpi_device_resume_complete:
  * @device: The #FpDevice
- * @error: The #GError or %NULL on success
+ * @error: (nullable) (transfer full): The #GError or %NULL on success
  *
  * Finish a resume request.
  */
@@ -1852,7 +1861,7 @@ fpi_device_resume_complete (FpDevice *device,
 /**
  * fpi_device_clear_storage_complete:
  * @device: The #FpDevice
- * @error: The #GError or %NULL on success
+ * @error: (nullable) (transfer full): The #GError or %NULL on success
  *
  * Finish an ongoing clear_storage operation.
  */
@@ -1883,7 +1892,7 @@ fpi_device_clear_storage_complete (FpDevice *device,
  * @device: The #FpDevice
  * @completed_stages: The number of stages that are completed at this point
  * @print: (transfer floating): The #FpPrint for the newly completed stage or %NULL on failure
- * @error: (transfer full): The #GError or %NULL on success
+ * @error: (nullable) (transfer full): The #GError or %NULL on success
  *
  * Notify about the progress of the enroll operation. This is important for UI interaction.
  * The passed error may be used if a scan needs to be retried, use fpi_device_retry_new().
