@@ -1636,6 +1636,7 @@ static const FpIdEntry id_table[] = {
   { .vid = 0x27c6,  .pid = 0x659A,  },
   { .vid = 0x27c6,  .pid = 0x659C,  },
   { .vid = 0x27c6,  .pid = 0x6A94,  },
+  { .vid = 0x27c6,  .pid = 0x6512,  },
   { .vid = 0,  .pid = 0,  .driver_data = 0 },   /* terminating entry */
 };
 
