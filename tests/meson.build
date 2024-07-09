@@ -56,7 +56,8 @@ drivers_tests = [
     'egismoc-0586',
     'egismoc-0587',
     'fpcmoc',
-    'realtek',
+	'realtek',
+	'realtek-5816',
     'focaltech_moc',
 ]
 
