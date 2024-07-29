@@ -1,9 +1,9 @@
+spi_sources = []
+spi_headers = []
+
 if 'elanspi' in drivers
   spi_headers = ['fpi-spi-transfer.h']
   spi_sources = ['fpi-spi-transfer.c']
-else
-  spi_sources = []
-  spi_headers = []
 endif
 
 libfprint_sources = [
