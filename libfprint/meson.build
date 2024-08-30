@@ -1,7 +1,7 @@
 spi_sources = []
 spi_headers = []
 
-if 'elanspi' in drivers
+if enabled_spi_drivers.length() > 0
   spi_headers = ['fpi-spi-transfer.h']
   spi_sources = ['fpi-spi-transfer.c']
 endif

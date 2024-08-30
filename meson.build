@@ -97,6 +97,9 @@ cairo_dep = dependency('cairo', required: false)
 # introspection scanning and Gio-2.0.gir
 gobject_introspection = dependency('gobject-introspection-1.0', required: get_option('introspection'))
 
+# SPI
+have_spi = host_machine.system() == 'linux'
+
 # Drivers
 drivers = get_option('drivers').split(',')
 virtual_drivers = [
@@ -137,9 +140,12 @@ default_drivers = [
     'focaltech_moc',
 ]
 
-# SPI
-if host_machine.system() == 'linux'
-    default_drivers += ['elanspi']
+spi_drivers = [
+    'elanspi'
+]
+
+if have_spi
+    default_drivers += spi_drivers
 endif
 
 # FIXME: All the drivers should be fixed by adjusting the byte order.
@@ -176,6 +182,17 @@ endif
 
 if drivers == [ 'default' ]
     drivers = default_drivers
+endif
+
+enabled_spi_drivers = []
+foreach driver : spi_drivers
+    if driver in drivers
+        enabled_spi_drivers += driver
+    endif
+endforeach
+
+if enabled_spi_drivers.length() > 0 and not have_spi
+    error('SPI drivers @0@ are not supported'.format(enabled_spi_drivers))
 endif
 
 driver_helper_mapping = {
