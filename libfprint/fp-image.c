@@ -169,6 +169,7 @@ typedef struct
   FpiImageFlags        flags;
   guchar              *image;
   guchar              *binarized;
+  gboolean            image_changed;
 } DetectMinutiaeNbisData;
 
 typedef struct
